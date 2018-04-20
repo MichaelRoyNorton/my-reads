@@ -10,9 +10,19 @@ class BooksApp extends React.Component {
     books: []
   }
 
-  componentDidMount() {
+  getBooks = () => {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
+    })
+  }
+
+  componentDidMount() {
+    this.getBooks()
+  }
+
+  updateShelf = (book,shelf) => {
+    BooksAPI.update(book,shelf).then(() => {
+      this.getBooks()
     })
   }
 
@@ -20,9 +30,9 @@ class BooksApp extends React.Component {
     const book = this.state.books
     return (
       <div>
-        <BookShelf title="CurrentlyReading" books={book.filter((book) => (book.shelf === "currentlyReading"))} />
-        <BookShelf title="Want to Read" books={book.filter((book) => (book.shelf === "wantToRead"))} />
-        <BookShelf title="Read" books={book.filter((book) => (book.shelf === "read"))} />
+        <BookShelf title="CurrentlyReading" books={book.filter((book) => (book.shelf === "currentlyReading"))} updateShelf={this.updateShelf} />
+        <BookShelf title="Want to Read" books={book.filter((book) => (book.shelf === "wantToRead"))} updateShelf={this.updateShelf} />
+        <BookShelf title="Read" books={book.filter((book) => (book.shelf === "read"))} updateShelf={this.updateShelf} />
       </div>
 
       // <div className="app">
