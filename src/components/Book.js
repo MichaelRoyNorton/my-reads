@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class ListBooks extends Component {
+class Book extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired
+  }
+
   render() {
     return (
       <ol className="books-grid">
@@ -8,7 +13,7 @@ class ListBooks extends Component {
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.bookCover}")` }}></div>
+                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                 <div className="book-shelf-changer">
                   <select>
                     <option value="none" disabled>Move to...</option>
@@ -29,4 +34,4 @@ class ListBooks extends Component {
   }
 }
 
-export default ListBooks;
+export default Book;

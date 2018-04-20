@@ -1,45 +1,30 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import ListBooks from './components/ListBooks'
+import BookShelf from './components/BookShelf'
 
 console.log(BooksAPI.getAll());
 
 class BooksApp extends React.Component {
   state = {
-    books: [
-      {
-        "id": "To Kill a Mockingbird",
-        "title": "To Kill a Mockingbird",
-        "authors": "Harper Lee",
-        "bookCover": "http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api"
-      },
-      {
-        "id": "Ender's Game",
-        "title": "Ender's Game",
-        "authors": "Orson Scott Card",
-        "bookCover": "http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api"
-      },
-      {
-        "id": "1776",
-        "title": "Harry Potter and the Sorcerer's Stone",
-        "authors": "J.K. Rowling",
-        "bookCover": "http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api"
-      }
-    ]
+    books: []
   }
 
-  // updateShelf = (book) => {
-  //   this.setState((state) => ({
-  //     books: state.books.filter((b) => b.id !== book.id)
-  //   }))
-  // }
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
+    })
+  }
 
   render() {
+    const book = this.state.books
     return (
       <div>
-        <ListBooks books={this.state.books} />
+        <BookShelf title="CurrentlyReading" books={book.filter((book) => (book.shelf === "currentlyReading"))} />
+        <BookShelf title="Want to Read" books={book.filter((book) => (book.shelf === "wantToRead"))} />
+        <BookShelf title="Read" books={book.filter((book) => (book.shelf === "read"))} />
       </div>
+
       // <div className="app">
       //   {this.state.showSearchPage ? (
       //     <div className="search-books">
